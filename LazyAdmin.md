@@ -8,26 +8,23 @@
 
 ## 1. Opis
 
-Zdobycie flagi przez wejśćia za pośrednictwem reverse shell wgranego na strone oraz użycie pyps by dostać się do roota
+Zdobycie flagi przez znalezienie luki w url strony i pobranie pliku zawierającego wrażliwe dane
 
 ---
 
 ## 2. Kroki rozwiązania
-1. nmap do sprawdzenia otwartych portów. port 85 otwarty
-2. sprawdzenie na stronie wersji oprogramowania
-3. skorzystanie z podstawowego logina oraz hasła dla concrete cms 8.5.2
-4. dodanie do akceptowalnych plików rozszerzenia .php
-5. wgranien na strone reverseshell i nasłuchiwanie przez nc -nvlp co powoduje wejście na komputer zakażony ale wejśćie na konto www-data
-6. trzeba dostać się do użytkownika pozwala na to przeszukanie pilków w confugu database.php znajduje się hasło użytkownika toad
-7. w ten sposób można dostać pierwszą flagę
-8. gdy użyjemy komendy env pojawi się token którego deszyfracja pozwoli na zalogowanie się do użytkownika mario
-9. pobieramy na własny komputer pspy oraz stawiamy serwer python3 -m http.server 80 co pozwala na pobranie zawartośći w tym przypadku pspy
-10. gdy pspy jest zainstalowane musimy zmienić jego wartość w systemie za pomocą chmod -x pspy
-11. pozwoli to na znalezienie lokalizacji pliku który pobiera wartości z /app/castle/application/counter.sh
-12. pozwala to na zmodyfikowanie własnej ścieżki
-13. stawiamy serwer tym razem na porcie 85 oraz tworzymy taką samą lokalizacje pliku counter.sh
-14. pobieramy do niego rever shell na basha
-15. nadpisujeemy hosta echo '10.8.34.229 mkingdom.thm' > /etc/hosts
-16. dzięki temu pobiera to z naszego serwera
-17. dzięki wcześniejszemu zrobienia odpowiedniej ścieżki automatycznie pobiera nam zakażony plik co pozawla na wejście do roota
-18. nnastępną flagę musimy przenieść do folderu tmp i ją odczytać
+1. nmap -sS -A - oN do sprawdzenia otwartych portów. Otwarte porty 80 i 22
+2. użycie ffuf do znalezienia adresu content który ujawnia użycie sweetRice cms
+3. skorzystanie z searchsploit aby znaleźć błędy w oprogramowaniu.
+4. znalezienie arpitrary file update i zapisanie exploitu na komputerze. exploit potrzebuje loginu oraz hasła użytkownika 
+5. zastosowanie ffuf do do adresu /content co pokazuje że dalsza część url którą można wykorzystać jest inc. Inc pozwala zapisać plik z buckup'em
+6. w pliku buckup jest zapisana nazwa i hasło które były potrzebne do exploitu 
+7. hasło trzeba odkodować bo jest zahashowane 
+8. następnie używamy exploitu który wymaga od nas url loginu hasła oraz reverseshella
+9. exploit tworzy nowe url za którego pomocą przy użyciu curl i nasłuchując odpowiedni port używając nc -nvlp dzięki czemu wchodzimy na maszyne
+10. umocniamy nasłuch za pomocą komendy pythin3 -c "import pty;pty.spawn('/bin/bash')" stty raw -echo oraz export TERM=xterm 
+11. pierwsza flaga jest na /home/itguy
+12. przy pomocy sudo -l dowiadujemy się że można skorzystać z perl scrip na root
+13. perl script uaktywania kolejny plik o nazwie copy.sh
+14. copy.sh może być nadpisany przez każdego co pozwala użyć własnego revershella 
+15. używając nc -nvlp ponownie oraz pliku copy.sh otrzymujemy dostęp do roota gdzie znajduje się kolejna i ostania flaga
