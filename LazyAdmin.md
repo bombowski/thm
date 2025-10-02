@@ -1,1 +1,1 @@
-LazyAdmin
+THM-LazyAdmin
