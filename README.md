@@ -7,7 +7,7 @@
 ---
 
 ## 1. Opis
-Przykład: „Pokój uczy podstaw enumeracji serwera WWW i prostych ataków SQLi.”
+
 Zdobycie flagi przez wejśćia za pośrednictwem reverse shell wgranego na strone oraz użycie pyps by dostać się do roota
 
 ---
