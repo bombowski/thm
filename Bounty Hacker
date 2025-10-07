@@ -12,18 +12,9 @@ Zdobycie flagi przez otwarty port ftp oraz brute force
 ---
 
 ## 2. Kroki rozwiązania
-1. nmap -sS -A do sprawdzenia otwartych portów. Otwarte porty 80 i 22
-2. użycie ffuf do znalezienia adresu content który ujawnia użycie sweetRice cms
-3. skorzystanie z searchsploit aby znaleźć błędy w oprogramowaniu.
-4. znalezienie arpitrary file update i zapisanie exploitu na komputerze. exploit potrzebuje loginu oraz hasła użytkownika 
-5. zastosowanie ffuf do do adresu /content co pokazuje że dalsza część url którą można wykorzystać jest inc. Inc pozwala zapisać plik z buckup'em
-6. w pliku buckup jest zapisana nazwa i hasło które były potrzebne do exploitu 
-7. hasło trzeba odkodować bo jest zahashowane 
-8. następnie używamy exploitu który wymaga od nas url loginu hasła oraz reverseshella
-9. exploit tworzy nowe url za którego pomocą przy użyciu curl i nasłuchując odpowiedni port używając nc -nvlp dzięki czemu wchodzimy na maszyne
-10. umocniamy nasłuch za pomocą komendy pythin3 -c "import pty;pty.spawn('/bin/bash')" stty raw -echo oraz export TERM=xterm 
-11. pierwsza flaga jest na /home/itguy
-12. przy pomocy sudo -l dowiadujemy się że można skorzystać z perl scrip na root
-13. perl script uaktywania kolejny plik o nazwie copy.sh
-14. copy.sh może być nadpisany przez każdego co pozwala użyć własnego revershella 
-15. używając nc -nvlp ponownie oraz pliku copy.sh otrzymujemy dostęp do roota gdzie znajduje się kolejna i ostania flaga
+1. nmap -sS -A do sprawdzenia otwartych portów. Otwarte porty 80 i 22 i 21
+2. wejście na ftp i przejęcie plików z locks.txt oraz task.txt
+3. w pliku locks.txt są prawdopodobne hasła a w pliku task.txt login i przy użyciu hydra -l lin -P locks.txt ssh://10.10.104.105 udaje się wejść na maszyne
+4. po wejściu zdobywamy pierwszą flage 
+5. sprawdzamy jakie możemy używać komendy za pomocą sudo -l i okazuje się że można użyć /bin/tar
+6. za pomocą gtfobins znajdujemy komendę która pozwala obejść zabezpieczenia i dzięki temu zdobywamy flagę
