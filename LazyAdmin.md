@@ -13,7 +13,7 @@ Zdobycie flagi przez znalezienie luki w url strony i pobranie pliku zawierające
 ---
 
 ## 2. Kroki rozwiązania
-1. nmap -sS -A - oN do sprawdzenia otwartych portów. Otwarte porty 80 i 22
+1. nmap -sS -A do sprawdzenia otwartych portów. Otwarte porty 80 i 22
 2. użycie ffuf do znalezienia adresu content który ujawnia użycie sweetRice cms
 3. skorzystanie z searchsploit aby znaleźć błędy w oprogramowaniu.
 4. znalezienie arpitrary file update i zapisanie exploitu na komputerze. exploit potrzebuje loginu oraz hasła użytkownika 
